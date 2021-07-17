@@ -10,6 +10,18 @@ export class AppComponent {
   title = 'TemplateDrivenForm';
 
   topics = ['Angular', 'Android', 'Atmel'];
+  topicHasError = true;
 
-  userModel = new User('Kratos', 'kratos@test.com', 123456789, '', 'morning', true);
+  userModel = new User('Kratos', 'kratos@test.com', 1234567890, 'default', 'morning', true);
+
+  validateTopic(value: any)
+  {
+    if(value == 'default')
+    {
+      this.topicHasError = true;
+    }
+    else {
+      this.topicHasError = false;
+    }
+  }
 }

@@ -359,10 +359,22 @@
      <hr />
      <pre>{{userModel | json}}</pre>
 
+     {{userForm.form.valid}}
+
      <div class="form-group">
        <label>Name</label>
-       <input type="text" class="form-control" name="userName" [(ngModel)]="userModel.name">
+       <input type="text" required #name="ngModel" [class.is-invalid]="name.invalid && name.touched" class="form-control is-invalid" name="userName" [(ngModel)]="userModel.name">
+       <!--the #name="ngModel" is a reference to the ngModel directive.
+       if name.invalid and name.touched, then class.is-invalid, meaning the input wont be red everytime you load into the page.-->
+       <small class="text-danger" [class.d-none]="name.valid || name.untouched">Name is required</small>
+       <!--if the name is valid or untouched, dont show Name is required-->
      </div>
+
+     <!--for tracking state
+     {{name.className}}  //this and the #name above is for state tracking (ng-untouched, ng-pristine, ng-valid, etc), required above is for required fields
+      -->
+
+     <!--{{name.untouched}}-->
 
      <div class="form-group">
        <label>Email</label>
@@ -371,14 +383,23 @@
 
      <div class="form-group">
        <label>Phone</label>
-       <input type="tel" class="form-control" name="phone" [(ngModel)]="userModel.phone">
+       <input type="tel" required #phone="ngModel" pattern="^\d{10}$" [class.is-invalid]="phone.invalid && phone.touched" class="form-control" name="phone" [(ngModel)]="userModel.phone">
+       <!--pattern="^\d{10}$" is for saying that it needs to be 10 digits-->
+       <!--<small class="text-danger" [class.d-none]="phone.valid || phone.untouched" >Phone number is required and must be 10 digits</small>-->
+       <div *ngIf="phone.errors && (phone.invalid || phone.touched)">
+         <!--if the phone field has errors and phone is invalid or visited, then show the below error message-->
+         <small class="text-danger" *ngIf="phone.errors.required">Phone number is required</small>
+         <small class="text-danger" *ngIf="phone.errors.pattern">Phone number must be 10 digits</small>
+       </div>
      </div>
 
-     <div class="form-group">(
-       <select class="custom-select" name="topic" [(ngModel)]="userModel.topic">
-         <option value="">I am interested in</option>
+     <div class="form-group">
+       <select (blur)="validateTopic(topic.value)" (change)="validateTopic(topic.value)" #topic="ngModel" [class.is-invalid]="topicHasError && topic.touched" class="custom-select" name="topic" [(ngModel)]="userModel.topic">
+         <!--validateTopic() is a custom validation-->
+         <option value="default">I am interested in</option>
          <option *ngFor="let topic of topics">{{topic}}</option>
-       </select>(
+       </select>
+       <small class="text-danger" [class.d-none]="!topicHasError || topic.untouched" >Please choose a topic</small>
      </div>
 
      <!-- ngModel example-->
@@ -420,7 +441,8 @@
        <label class="form-check-label">Send me promotional offers</label>
      </div>
 
-     <button class="btn btn-primary" type="submit">Submit form</button>
+     <button [disabled]="userForm.form.invalid || topicHasError" class="btn btn-primary" type="submit">Submit form</button>
+     <!--button is disabled if the userFrom is invalid. topicHasError is there because it is a custom validation-->
 
    </form>
  </div>
