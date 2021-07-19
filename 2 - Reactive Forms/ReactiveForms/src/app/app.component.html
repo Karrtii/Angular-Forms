@@ -354,7 +354,7 @@
 
   <div class="container-fluid">
     <h2>Registration Form</h2>
-    <form [formGroup]="registrationForm">
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" novalidate>
 
       <pre>{{registrationForm.value | json}}</pre>
 
@@ -414,7 +414,7 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-primary spaceTop">Register</button>
+      <button [disabled]="!registrationForm.valid" type="submit" class="btn btn-primary spaceTop">Register</button>
       <button (click)="loadApiDataAll()" class="btn btn-secondary ml-2 spaceTop spaceLeft" type="button">Load API Data (ALL)</button>
       <button (click)="loadApiDataSome()" class="btn btn-secondary ml-2 spaceTop spaceLeft" type="button">Load API Data (SOME)</button>
 

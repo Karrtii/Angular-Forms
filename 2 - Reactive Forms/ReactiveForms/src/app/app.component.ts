@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {forbiddenNameValidator} from "./shared/username.validator";
 import {passwordValidator} from "./shared/password.validator";
+import {RegistrationService} from "./registration.service";
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ export class AppComponent implements OnInit{
 
   registrationForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private _registrationService: RegistrationService) {
     this.registrationForm = this.fb.group({
       userName: ['', [Validators.required, Validators.minLength(3), forbiddenNameValidator(/password/)]], // for the forbiddenNameValidator, any string we want to be forbid can be added to the parameter
       email: [''],
@@ -82,13 +83,16 @@ export class AppComponent implements OnInit{
   {
     this.registrationForm.setValue({
       userName: 'Bruce',
+      email: 'wayne@batman.com',
+      subscribe: true,
       password: 'Batman',
       confirmPassword: 'Batman',
       address:{
         city: 'Gotham',
         state: 'Arkham',
         postalCode: '1234'
-      }
+      },
+      alternateEmails: []
     })
   }
 
@@ -104,5 +108,11 @@ export class AppComponent implements OnInit{
       //   postalCode: '1234'
       // }
     })
+  }
+
+  onSubmit()
+  {
+    console.log(this.registrationForm.value);
+    this._registrationService.register(this.registrationForm.value).subscribe(response => console.log('Success!', response), error => console.log("Error!", error));
   }
 }
