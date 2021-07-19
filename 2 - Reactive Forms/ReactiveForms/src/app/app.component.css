@@ -1,0 +1,12 @@
+.spaceTop {
+  margin-top: 10px;
+}
+
+.spaceBottom {
+  margin-bottom: 10px;
+}
+
+.spaceTopBottom {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
