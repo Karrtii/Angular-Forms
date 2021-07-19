@@ -13,6 +13,39 @@ export class AppComponent {
   registrationForm = new FormGroup({
     userName: new FormControl('Kratos'),
     password: new FormControl(''),
-    confirmPassword: new FormControl('')
+    confirmPassword: new FormControl(''),
+    address: new FormGroup({
+      city: new FormControl(''),
+      state: new FormControl(''),
+      postalCode: new FormControl('')
+    })
   });
+
+  loadApiDataAll()
+  {
+    this.registrationForm.setValue({
+      userName: 'Bruce',
+      password: 'Batman',
+      confirmPassword: 'Batman',
+      address:{
+        city: 'Gotham',
+        state: 'Arkham',
+        postalCode: '1234'
+      }
+    })
+  }
+
+  loadApiDataSome()
+  {
+    this.registrationForm.patchValue({
+      userName: 'Bruce',
+      password: 'Batman',
+      confirmPassword: 'Batman',
+      // address:{
+      //   city: 'Gotham',
+      //   state: 'Arkham',
+      //   postalCode: '1234'
+      // }
+    })
+  }
 }

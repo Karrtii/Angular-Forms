@@ -355,6 +355,9 @@
   <div class="container-fluid">
     <h2>Registration Form</h2>
     <form [formGroup]="registrationForm">
+
+      <pre>{{registrationForm.value | json}}</pre>
+
       <div class="form-group">
         <label class="spaceTopBottom">Username</label>
         <input type="text" class="form-control" formControlName="userName">
@@ -370,9 +373,27 @@
         <input type="password" class="form-control" formControlName="confirmPassword">
       </div>
 
-      <button type="submit" class="btn btn-primary spaceTop">Register</button>
-    </form>
+      <div formGroupName="address">
+        <div class="form-group">
+          <label class="spaceTopBottom">City</label>
+          <input type="text" class="form-control" formControlName="city">
+        </div>
 
-    <pre>{{registrationForm.value | json}}</pre>
+        <div class="form-group">
+          <label class="spaceTopBottom">State</label>
+          <input type="text" class="form-control" formControlName="state">
+        </div>
+
+        <div class="form-group">
+          <label class="spaceTopBottom">Postal Code</label>
+          <input type="text" class="form-control" formControlName="postalCode">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary spaceTop">Register</button>
+      <button (click)="loadApiDataAll()" class="btn btn-secondary ml-2 spaceTop spaceLeft" type="button">Load API Data (ALL)</button>
+      <button (click)="loadApiDataSome()" class="btn btn-secondary ml-2 spaceTop spaceLeft" type="button">Load API Data (SOME)</button>
+
+    </form>
 
   </div>
