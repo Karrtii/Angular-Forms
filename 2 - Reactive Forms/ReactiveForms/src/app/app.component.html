@@ -373,8 +373,12 @@
 
       <div class="form-group">
         <label class="spaceTopBottom">Email</label>
+        <button type="button" class="btn btn-secondary btn-sm m-2" (click)="addAlternateEmail()">Add email</button>
         <input type="text" class="form-control" formControlName="email" [class.is-invalid]="getEmail!.invalid && getEmail!.touched">
         <small class="text-danger" [class.d-none]="getEmail!.valid || getEmail!.untouched">Email is required</small>
+        <div formArrayName="alternateEmails" *ngFor="let email of getAlternateEmails.controls; let i=index">
+          <input type="text" class="form-control my-1" [formControlName]="i">
+        </div>
       </div>
 
       <div class="form-check mb-3 spaceTop">

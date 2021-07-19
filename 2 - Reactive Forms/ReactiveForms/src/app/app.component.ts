@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Form, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {forbiddenNameValidator} from "./shared/username.validator";
 import {passwordValidator} from "./shared/password.validator";
 
@@ -24,7 +24,8 @@ export class AppComponent implements OnInit{
         city: [''],
         state: [''],
         postalCode: ['']
-      })
+      }),
+      alternateEmails: this.fb.array([])
     }, {validators: passwordValidator})
   }
 
@@ -52,6 +53,18 @@ export class AppComponent implements OnInit{
   {
     return this.registrationForm.get('email');
   }
+
+  get getAlternateEmails()
+  {
+    return this.registrationForm.get('alternateEmails') as FormArray;
+  }
+
+  addAlternateEmail()
+  {
+    this.getAlternateEmails.push(this.fb.control(''));
+  }
+
+
 
   //within the FormGroup, there are FormControl fields
   // registrationForm = new FormGroup({
