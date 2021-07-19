@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {Form, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {forbiddenNameValidator} from "./shared/username.validator";
 import {passwordValidator} from "./shared/password.validator";
 
@@ -8,26 +8,49 @@ import {passwordValidator} from "./shared/password.validator";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'ReactiveForms';
 
+  registrationForm: FormGroup;
+
   constructor(private fb: FormBuilder) {
+    this.registrationForm = this.fb.group({
+      userName: ['', [Validators.required, Validators.minLength(3), forbiddenNameValidator(/password/)]], // for the forbiddenNameValidator, any string we want to be forbid can be added to the parameter
+      email: [''],
+      subscribe: [false],
+      password: [''],
+      confirmPassword: [''],
+      address: this.fb.group({
+        city: [''],
+        state: [''],
+        postalCode: ['']
+      })
+    }, {validators: passwordValidator})
   }
 
-  registrationForm = this.fb.group({
-    userName: ['', [Validators.required, Validators.minLength(3), forbiddenNameValidator(/password/)]], // for the forbiddenNameValidator, any string we want to be forbid can be added to the parameter
-    password: [''],
-    confirmPassword: [''],
-    address: this.fb.group({
-      city: [''],
-      state: [''],
-      postalCode: ['']
+  ngOnInit() {
+    this.registrationForm.get('subscribe')?.valueChanges.subscribe(checkedValue => {
+      const email = this.registrationForm.get('email');
+      if(checkedValue)
+      {
+        email!.setValidators(Validators.required);
+      }
+      else
+      {
+        email?.clearValidators()
+      }
+      email?.updateValueAndValidity();
     })
-  }, {validators: passwordValidator})
+  }
 
   get getUserName()
   {
     return this.registrationForm.get('userName');
+  }
+
+  get getEmail()
+  {
+    return this.registrationForm.get('email');
   }
 
   //within the FormGroup, there are FormControl fields

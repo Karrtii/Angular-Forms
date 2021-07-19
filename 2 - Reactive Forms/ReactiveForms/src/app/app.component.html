@@ -372,6 +372,17 @@
       </div>
 
       <div class="form-group">
+        <label class="spaceTopBottom">Email</label>
+        <input type="text" class="form-control" formControlName="email" [class.is-invalid]="getEmail!.invalid && getEmail!.touched">
+        <small class="text-danger" [class.d-none]="getEmail!.valid || getEmail!.untouched">Email is required</small>
+      </div>
+
+      <div class="form-check mb-3 spaceTop">
+        <input type="checkbox" class="form-check-input" formControlName="subscribe">
+        <label class="form-check-label">Send me promotional offers</label>
+      </div>
+
+      <div class="form-group">
         <label class="spaceTopBottom">Password</label>
         <input type="password" class="form-control" formControlName="password">
       </div>
