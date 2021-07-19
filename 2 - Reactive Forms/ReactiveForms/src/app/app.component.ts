@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {forbiddenNameValidator} from "./shared/username.validator";
+import {passwordValidator} from "./shared/password.validator";
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,7 @@ export class AppComponent {
       state: [''],
       postalCode: ['']
     })
-  })
+  }, {validators: passwordValidator})
 
   get getUserName()
   {
