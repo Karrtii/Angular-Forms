@@ -367,6 +367,7 @@
         <div *ngIf="getUserName!.invalid && getUserName!.touched">
           <small *ngIf="getUserName!.hasError('required')" class="text-danger">Username is required</small>
           <small *ngIf="getUserName!.hasError('minlength')" class="text-danger">Username must be at least 3 characters</small>
+          <small *ngIf="getUserName!.hasError('forbiddenName')" class="text-danger">{{getUserName!.errors?.forbiddenName.value}} username not allowed</small> <!--custom validation-->
         </div>
       </div>
 

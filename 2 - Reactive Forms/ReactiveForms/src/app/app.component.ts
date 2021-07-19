@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {forbiddenNameValidator} from "./shared/username.validator";
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ export class AppComponent {
   }
 
   registrationForm = this.fb.group({
-    userName: ['', [Validators.required, Validators.minLength(3)]],
+    userName: ['', [Validators.required, Validators.minLength(3), forbiddenNameValidator(/password/)]], // for the forbiddenNameValidator, any string we want to be forbid can be added to the parameter
     password: [''],
     confirmPassword: [''],
     address: this.fb.group({
